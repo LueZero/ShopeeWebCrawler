@@ -34,7 +34,7 @@ class ShopeeWebCrawler
      * @var int categoryId
      * @var int limit
      * @var int newest
-     * @return ShopeeWebCrawler $this
+     * @return ShopeeWebCrawler
      */
     public function getSearchItems($categoryId, $limit, $newest)
     {
@@ -67,7 +67,7 @@ class ShopeeWebCrawler
     }
 
     /**
-     * @return Item[] items
+     * @return Item[]
      */
     public function toItems()
     {
