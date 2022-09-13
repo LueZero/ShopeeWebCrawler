@@ -1,0 +1,16 @@
+{
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "BigGo\\InterviewQuestion\\": "src"          
+        },
+        "classmap": [
+            "src/Libraries"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    }
+}
