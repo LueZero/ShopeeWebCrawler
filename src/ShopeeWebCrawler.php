@@ -35,6 +35,7 @@ class ShopeeWebCrawler
      * @var int limit
      * @var int newest
      * @return ShopeeWebCrawler
+     * @throws \GuzzleHttp\Exception\RequestException
      */
     public function getSearchItems($categoryId, $limit, $newest)
     {
