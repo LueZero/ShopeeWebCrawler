@@ -11,17 +11,17 @@ class ShopeeWebCrawler
     use StringConverter;
 
     /**
-     * @var string baseUrl
+     * @var string
      */
     private $baseUrl = "https://shopee.tw";
 
     /**
-     * @var \GuzzleHttp\Client httpClient
+     * @var \GuzzleHttp\Client
      */
     private $httpClient;
 
     /**
-     * @var string webCrawlerResult
+     * @var string
      */
     private $webCrawlerResult;
 
