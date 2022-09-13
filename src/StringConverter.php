@@ -4,25 +4,15 @@ namespace BigGo\InterviewQuestion;
 
 use MediaWiki\Languages\Data\ZhConversion;
 
-class StringConverter
+trait StringConverter
 {
-    private $zh2Hant;
-
-    private $zh2Hans;
-    
-    public function __construct()
+    public static function convertZh2Hant($str)
     {
-        $this->zh2Hant = ZhConversion::$zh2Hant;
-        $this->zh2Hans = ZhConversion::$zh2Hans;
+        return strtr($str, ZhConversion::$zh2Hant);
     }
 
-    public function convertZh2Hant($str)
+    public static function convertZh2Hans($str)
     {
-      	return strtr($str, $this->zh2Hant);
-    }
-
-    public function convertZh2Hans($str)
-    {
-      	return strtr($str, $this->zh2Hans);
+        return strtr($str, ZhConversion::$zh2Hans);
     }
 }
