@@ -27,23 +27,52 @@ class ShopeeWebCrawler
 
     public function __construct()
     {
-        $this->httpClient = new Client();
+        $this->httpClient = new Client(['base_uri' => $this->baseUrl]);
     }
+
+    /**
+     * @return ShopeeWebCrawler 
+     */
+    public function getCategoryTree()
+    {
+        try {
+
+            $uri = "/api/v4/pages/get_category_tree";
+
+            $response = $this->httpClient->request('GET', $uri);
+
+            $json = (string) $response->getBody();
+
+            $this->webCrawlerResult = $json;
+
+            return $this;
+
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+
+            $response = $e->getResponse();
+            throw new \ErrorException($response->getBody()->getContents());
+
+        }
+    }
+
 
     /**
      * @var int categoryId
      * @var int limit
      * @var int newest
+     * @var string by
      * @return ShopeeWebCrawler
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function getSearchItems($categoryId, $limit, $newest)
+    public function getSearchItems($categoryId, $limit, $newest, $by = "pop", $order = "desc")
     {
         try {
 
-            $url = $this->baseUrl . "/api/v4/search/search_items?by=relevancy&fe_categoryids=" . $categoryId . "&limit=" . $limit . "&newest=" . $newest . "&order=desc&page_type=search&scenario=PAGE_CATEGORY&version=2";
+            $uri = "/api/v4/search/search_items?by=" . $by . "&fe_categoryids=" . $categoryId . "&limit=" . $limit . "&newest=" . $newest . "&order=" . $order . "&page_type=search&scenario=PAGE_CATEGORY&version=2";
 
-            $response = $this->httpClient->get($url);
+            $response = $this->httpClient->request('GET', $uri, [
+                'headers' => ['x-api-source' => 'pc']
+            ]);
 
             $json = (string) $response->getBody();
 
