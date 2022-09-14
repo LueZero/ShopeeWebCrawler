@@ -32,5 +32,8 @@ class ExcelGenerator
     {
         $writer = new Xlsx($this->spreadsheet);
         $writer->save($filename . ".xlsx");
+
+        $this->spreadsheet->disconnectWorksheets();
+        unset($this->spreadsheet);
     }
 }

@@ -13,7 +13,7 @@ class ShopeeWebCrawler
     /**
      * @var string
      */
-    private $baseUrl = "https://shopee.tw";
+    private $baseUrl = 'https://shopee.tw';
 
     /**
      * @var \GuzzleHttp\Client
@@ -23,7 +23,7 @@ class ShopeeWebCrawler
     /**
      * @var string
      */
-    private $webCrawlerResult;
+    private $body;
 
     public function __construct()
     {
@@ -37,13 +37,11 @@ class ShopeeWebCrawler
     {
         try {
 
-            $uri = "/api/v4/pages/get_category_tree";
+            $uri = '/api/v4/pages/get_category_tree';
 
             $response = $this->httpClient->request('GET', $uri);
 
-            $json = (string) $response->getBody();
-
-            $this->webCrawlerResult = $json;
+            $this->body = (string) $response->getBody();
 
             return $this;
 
@@ -64,19 +62,17 @@ class ShopeeWebCrawler
      * @return ShopeeWebCrawler
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function getSearchItems($categoryId, $limit, $newest, $by = "pop", $order = "desc")
+    public function getSearchItems($categoryId, $limit, $newest, $by = 'pop', $order = 'desc')
     {
         try {
 
-            $uri = "/api/v4/search/search_items?by=" . $by . "&fe_categoryids=" . $categoryId . "&limit=" . $limit . "&newest=" . $newest . "&order=" . $order . "&page_type=search&scenario=PAGE_CATEGORY&version=2";
+            $uri = '/api/v4/search/search_items?by=' . $by . '&fe_categoryids=' . $categoryId . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_CATEGORY&version=2';
 
             $response = $this->httpClient->request('GET', $uri, [
                 'headers' => ['x-api-source' => 'pc']
             ]);
 
-            $json = (string) $response->getBody();
-
-            $this->webCrawlerResult = $json;
+            $this->body = (string) $response->getBody();
 
             return $this;
 
@@ -93,7 +89,7 @@ class ShopeeWebCrawler
      */
     public function toArray()
     {
-        return (array) json_decode($this->webCrawlerResult, true);
+        return (array) json_decode($this->body, true);
     }
 
     /**
@@ -103,7 +99,7 @@ class ShopeeWebCrawler
     {
         $items = [];
 
-        $array = (array) json_decode($this->webCrawlerResult, true);
+        $array = (array) json_decode($this->body, true);
 
         $produtcItems = empty($array['items']) == true ? [] : $array['items'];
 
