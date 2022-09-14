@@ -6,18 +6,25 @@ error_reporting(E_ALL);
 require './vendor/autoload.php';
 
 use BigGo\InterviewQuestion\ShopeeWebCrawler;
+use BigGo\InterviewQuestion\ExcelGenerator;
 
+$categoryId = 11041645;
 $shopeeWebCrawler = new ShopeeWebCrawler();
-
-$items = $shopeeWebCrawler->getSearchItems(11041645, 0, 0)->toArray();
-
+$items = $shopeeWebCrawler->getSearchItems($categoryId, 0, 0)->toArray();
 $totalCount = empty($items['total_count']) == true ? 0 : ($items['total_count'] / 60);
 
+$database = [];
 $newest = 0;
 
 for ($i = 0; $i < $totalCount; $i++) {
-    $items = $shopeeWebCrawler->getSearchItems(11041645, 60, $newest)->toItems();
+
+    $result = $shopeeWebCrawler->getSearchItems($categoryId, 60, $newest)->toItems();
     $newest += 60;
 
-    print_r($items);
+    foreach($result as $value)
+        array_push($database, (array) $value);
 }
+
+$excelGenerator = new ExcelGenerator();
+$excelGenerator->fromArray($database, 'A1');
+$excelGenerator->save('prodcut');
