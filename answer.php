@@ -5,36 +5,39 @@ error_reporting(E_ALL);
 
 require './vendor/autoload.php';
 
-use BigGo\InterviewQuestion\ShopeeWebCrawler;
+use BigGo\InterviewQuestion\ShopeeProductWebCrawler;
 use BigGo\InterviewQuestion\ExcelGenerator;
 use BigGo\InterviewQuestion\Helpers\ShoppeHelper;
 
-$shopeeWebCrawler = new ShopeeWebCrawler();
+$excelGenerator = new ExcelGenerator();
+$shopeeProductWebCrawler = new ShopeeProductWebCrawler();
 
-$categoryTree = $shopeeWebCrawler->getCategoryTree()->toArray();
+$database = [['名稱', '金額']];
 
+$categoryTree = $shopeeProductWebCrawler->getCategoryTree()->toArray();
 $categoryList = empty($categoryTree['data']['category_list']) == true ? [] : $categoryTree['data']['category_list'];
-
 $categoryId = ShoppeHelper::getCategoryCatId($categoryList, '娛樂、收藏');
 
-$items = $shopeeWebCrawler->getSearchItems($categoryId, 0, 0)->toArray();
-
-$totalCount = empty($items['total_count']) == true ? 0 : ($items['total_count'] / 60);
+$items = $shopeeProductWebCrawler->getSearchItems($categoryId, 0, 0)->toArray();
+$page = empty($items['total_count']) == true ? 0 : ($items['total_count'] / 60);
 
 $newest = 0;
 
-$database = [['產品ID', '產品名稱', '產品金額', '產品最小金額', '產品最大金額']];
+for ($i = 0; $i < $page; $i++) {
 
-for ($i = 0; $i < $totalCount; $i++) 
-{
-    $result = $shopeeWebCrawler->getSearchItems($categoryId, 60, $newest)->toItems();
+    $items = $shopeeProductWebCrawler->getSearchItems($categoryId, 60, $newest)->toItems();
     $newest += 60;
 
-    foreach($result as $value)
-        array_push($database, (array) $value);
+    foreach($items as $item) {
+        $price = '$'.$item->price;
+
+        if ($item->priceMin != $item->priceMax)
+            $price = '$'.$item->priceMin . ' - ' . '$'.$item->priceMax;
+
+        array_push($database, [$item->name, $price]);
+    }
 }
 
-$excelGenerator = new ExcelGenerator();
 $excelGenerator->setTitle('zero');
 $excelGenerator->fromArray($database, 'A1');
 $excelGenerator->save('product');

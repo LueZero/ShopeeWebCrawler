@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use BigGo\InterviewQuestion\StringConverter;
 use BigGo\InterviewQuestion\Models\Item;
 
-class ShopeeWebCrawler
+class ShopeeProductWebCrawler
 {
     use StringConverter;
 
@@ -53,7 +53,6 @@ class ShopeeWebCrawler
         }
     }
 
-
     /**
      * @var int categoryId
      * @var int limit
@@ -89,6 +88,9 @@ class ShopeeWebCrawler
      */
     public function toArray()
     {
+        if (strlen($this->body) == 0)
+            return [];
+
         return (array) json_decode($this->body, true);
     }
 
@@ -98,11 +100,10 @@ class ShopeeWebCrawler
     public function toItems()
     {
         $items = [];
+        $products = $this->toArray();
 
-        $array = (array) json_decode($this->body, true);
-
-        $productItems = empty($array['items']) == true ? [] : $array['items'];
-
+        $productItems = empty($products['items']) == true ? [] : $products['items'];
+        
         if (!empty($productItems)) 
         {
             foreach ($productItems as $productItem) 
@@ -110,9 +111,9 @@ class ShopeeWebCrawler
                 $item = new Item();
                 $item->itemId = $productItem['item_basic']['itemid'];
                 $item->name = $this->convertZh2Hans($productItem['item_basic']['name']);
-                $item->price = intval($productItem['item_basic']['price']) / 100000;
                 $item->priceMin = intval($productItem['item_basic']['price_min']) / 100000;
                 $item->priceMax = intval($productItem['item_basic']['price_max']) / 100000;
+                $item->price = intval($productItem['item_basic']['price']) / 100000;
                 array_push($items, $item);
             }
         }
