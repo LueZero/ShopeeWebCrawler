@@ -3,12 +3,12 @@
 namespace BigGo\InterviewQuestion;
 
 use GuzzleHttp\Client;
-use BigGo\InterviewQuestion\StringConverter;
-use BigGo\InterviewQuestion\Models\Item;
+use BigGo\InterviewQuestion\StringConverterTrait;
+use BigGo\InterviewQuestion\Models\Shoppe\Item;
 
-class ShopeeProductWebCrawler
+class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
 {
-    use StringConverter;
+    use StringConverterTrait;
 
     /**
      * @var string
@@ -31,9 +31,38 @@ class ShopeeProductWebCrawler
     }
 
     /**
+     * @var string keyword
+     * @var int limit
+     * @var int newest
+     * @var string by
+     * @var string order
+     * @return ShopeeWebCrawler
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function getProduct($keyword, $limit, $newest, $by = 'relevancy', $order = 'desc')
+    {
+        try {
+
+            $uri = '/api/v4/search/search_items?by=' . $by . '&keyword=' . $keyword . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2';
+
+            $response = $this->httpClient->request('GET', $uri, ['headers' => ['x-api-source' => 'pc']]);
+
+            $this->body = (string) $response->getBody();
+
+            return $this;
+
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+
+            $response = $e->getResponse();
+            throw new \ErrorException($response->getBody()->getContents());
+
+        }
+    }
+
+    /**
      * @return ShopeeWebCrawler 
      */
-    public function getCategoryTree()
+    public function getCategory()
     {
         try {
 
@@ -58,18 +87,17 @@ class ShopeeProductWebCrawler
      * @var int limit
      * @var int newest
      * @var string by
+     * @var string order
      * @return ShopeeWebCrawler
      * @throws \GuzzleHttp\Exception\RequestException
      */
-    public function getSearchItems($categoryId, $limit, $newest, $by = 'pop', $order = 'desc')
+    public function getCategoryProduct($categoryId, $limit, $newest, $by = 'pop', $order = 'desc')
     {
         try {
 
             $uri = '/api/v4/search/search_items?by=' . $by . '&fe_categoryids=' . $categoryId . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_CATEGORY&version=2';
 
-            $response = $this->httpClient->request('GET', $uri, [
-                'headers' => ['x-api-source' => 'pc']
-            ]);
+            $response = $this->httpClient->request('GET', $uri, ['headers' => ['x-api-source' => 'pc']]);
 
             $this->body = (string) $response->getBody();
 
@@ -88,10 +116,7 @@ class ShopeeProductWebCrawler
      */
     public function toArray()
     {
-        if (strlen($this->body) == 0)
-            return [];
-
-        return (array) json_decode($this->body, true);
+        return strlen($this->body) == 0 ? [] : (array) json_decode($this->body, true);
     }
 
     /**
@@ -119,5 +144,32 @@ class ShopeeProductWebCrawler
         }
         
         return $items;
+    }
+
+    /**
+     * @var array categoryList
+     * @var string
+     */
+    public function findCategoryCatId($categoryList, $displayName)
+    {
+        if (is_array($categoryList)) {
+
+            $children = [];
+
+            foreach ($categoryList as $category) {
+
+                if (isset($category['display_name']) && trim($category['display_name']) == trim($displayName)) {
+
+                    return isset($category['catid']) ? $category['catid'] : 0;
+                    
+                } else if (isset($category['children'])) {
+
+                    foreach ($category['children'] as $child)
+                        array_push($children, $child);
+                }
+            }
+
+            return $this->findCategoryCatId($children, $displayName);
+        }
     }
 }

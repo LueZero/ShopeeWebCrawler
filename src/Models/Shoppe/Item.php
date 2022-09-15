@@ -1,6 +1,6 @@
 <?php 
 
-namespace BigGo\InterviewQuestion\Models;
+namespace BigGo\InterviewQuestion\Models\Shoppe;
 
 class Item {
 

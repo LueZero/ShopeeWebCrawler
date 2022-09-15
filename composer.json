@@ -9,7 +9,7 @@
             "BigGo\\InterviewQuestion\\": "src"          
         },
         "classmap": [
-            "src/Libraries"
+            "src/Models/Languages"
         ]
     },
     "require-dev": {

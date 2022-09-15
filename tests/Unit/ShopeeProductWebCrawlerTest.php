@@ -26,10 +26,10 @@ final class ShopeeProductWebCrawlerTest extends TestCase
     /**
      * @test
      */
-    public function testGivenCategoryTree_WhenShow_ThenFindArrayKey()
+    public function testGivenCategory_WhenShow_ThenFindArrayKey()
     {
         // Arrange
-        $this->sut->expects($this->any())->method('getCategoryTree')->will($this->returnSelf());
+        $this->sut->expects($this->any())->method('getCategory')->will($this->returnSelf());
         $this->sut->expects($this->any())->method('toArray')->will($this->returnValue([
             'data'=> ['category_list' => [
                 [
@@ -48,7 +48,7 @@ final class ShopeeProductWebCrawlerTest extends TestCase
         ]));
 
         // Act
-        $response = $this->sut->getCategoryTree()->toArray();
+        $response = $this->sut->getCategory()->toArray();
 
         // Assert
         $this->assertArrayHasKey('data', $response);
@@ -58,12 +58,12 @@ final class ShopeeProductWebCrawlerTest extends TestCase
     /**
      * @test
      */
-    public function testGivenSearchItemsAndUseExistingCategoryID_WhenShow_ThenFindArrayKey()
+    public function testGivenCategoryProductAndUseExistingCategoryID_WhenShow_ThenFindArrayKey()
     {
         // Arrange
         $categoryId = 11041645;
 
-        $this->sut->expects($this->any())->method('getSearchItems')->with(11041645, 1, 0)->will($this->returnSelf());
+        $this->sut->expects($this->any())->method('getCategoryProduct')->with(11041645, 1, 0)->will($this->returnSelf());
         $this->sut->expects($this->any())->method('toArray')->will($this->returnValue([
             'items' => [
                 "item_basic" => [
@@ -77,7 +77,7 @@ final class ShopeeProductWebCrawlerTest extends TestCase
         ]));
 
         // Act
-        $response = $this->sut->getSearchItems($categoryId, 1, 0)->toArray();
+        $response = $this->sut->getCategoryProduct($categoryId, 1, 0)->toArray();
 
         // Assert
         $this->assertArrayHasKey('items', $response);
@@ -87,17 +87,17 @@ final class ShopeeProductWebCrawlerTest extends TestCase
     /**
      * @test
      */
-    public function testGivenSearchItemsAndUseNotExistedCategoryID_WhenShow_ThenItemsArrayCount()
+    public function testGivenCategoryProductAndUseNotExistedCategoryID_WhenShow_ThenItemsArrayCount()
     {
         // Arrange
         $categoryId = 123;
-        $this->sut->expects($this->any())->method('getSearchItems')->with($this->isType('integer'), $this->isType('integer'), $this->isType('integer'))->will($this->returnSelf());
+        $this->sut->expects($this->any())->method('getCategoryProduct')->with($this->isType('integer'), $this->isType('integer'), $this->isType('integer'))->will($this->returnSelf());
         $this->sut->expects($this->any())->method('toArray')->will($this->returnValue([
             'items' => []
         ]));
 
         // Act
-        $response = $this->sut->getSearchItems($categoryId, 1, 0)->toArray();
+        $response = $this->sut->getCategoryProduct($categoryId, 1, 0)->toArray();
         
         // Assert
         $this->assertEquals(0, count($response['items']));
@@ -106,15 +106,15 @@ final class ShopeeProductWebCrawlerTest extends TestCase
     /**
      * @test
      */
-    public function testGivenSearchItemsAndUseExistingCategoryID_WhenShow_ThenErrorException()
+    public function testGivenCategoryProductAndUseExistingCategoryID_WhenShow_ThenErrorException()
     {
         // Arrange
         $categoryId = 123;
-        $this->sut->expects($this->any())->method('getSearchItems')->with($this->isType('integer'), $this->isType('integer'), $this->isType('integer'))->will($this->returnSelf());
+        $this->sut->expects($this->any())->method('getCategoryProduct')->with($this->isType('integer'), $this->isType('integer'), $this->isType('integer'))->will($this->returnSelf());
         $this->sut->expects($this->any())->method('toArray')->will($this->throwException(new ErrorException('HTTP ERROR')));
 
         // Act & Assert
         $this->expectException(ErrorException::class);
-        $this->sut->getSearchItems($categoryId, 1, 0)->toArray();
+        $this->sut->getCategoryProduct($categoryId, 1, 0)->toArray();
     }
 }

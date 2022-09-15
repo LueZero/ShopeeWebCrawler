@@ -4,7 +4,7 @@ namespace BigGo\InterviewQuestion;
 
 use MediaWiki\Languages\Data\ZhConversion;
 
-trait StringConverter
+trait StringConverterTrait
 {
     public static function convertZh2Hant($str)
     {
