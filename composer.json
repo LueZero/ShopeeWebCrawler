@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">=7.3.0",
+        "php": ">=7.0.0",
         "guzzlehttp/guzzle": "^7.5",
         "phpoffice/phpspreadsheet": "^1.24"
     },
