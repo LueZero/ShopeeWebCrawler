@@ -7,6 +7,7 @@ require './vendor/autoload.php';
 
 use BigGo\InterviewQuestion\ShopeeProductWebCrawler;
 use BigGo\InterviewQuestion\ExcelGenerator;
+use BigGo\InterviewQuestion\StringConverter;
 
 $excelGenerator = new ExcelGenerator();
 $shopeeProductWebCrawler = new ShopeeProductWebCrawler();
@@ -32,7 +33,7 @@ for ($i = 0; $i < $page; $i++) {
         if ($item->priceMin != $item->priceMax)
             $price = '$'.$item->priceMin . ' - ' . '$'.$item->priceMax;
 
-        array_push($database, [$item->name, $price]);
+        array_push($database, [StringConverter::convertZh2Hans($item->name), $price]);
     }
 }
 

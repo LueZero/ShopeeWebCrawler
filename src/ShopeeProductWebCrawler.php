@@ -3,13 +3,10 @@
 namespace BigGo\InterviewQuestion;
 
 use GuzzleHttp\Client;
-use BigGo\InterviewQuestion\StringConverterTrait;
 use BigGo\InterviewQuestion\Models\Shoppe\Item;
 
 class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
 {
-    use StringConverterTrait;
-
     /**
      * @var string
      */
@@ -135,7 +132,7 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
             {
                 $item = new Item();
                 $item->itemId = $productItem['item_basic']['itemid'];
-                $item->name = $this->convertZh2Hans($productItem['item_basic']['name']);
+                $item->name = $productItem['item_basic']['name'];
                 $item->priceMin = intval($productItem['item_basic']['price_min']) / 100000;
                 $item->priceMax = intval($productItem['item_basic']['price_max']) / 100000;
                 $item->price = intval($productItem['item_basic']['price']) / 100000;
