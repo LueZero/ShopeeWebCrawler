@@ -15,9 +15,7 @@ $categoryTree = $shopeeWebCrawler->getCategoryTree()->toArray();
 
 $categoryList = empty($categoryTree['data']['category_list']) == true ? [] : $categoryTree['data']['category_list'];
 
-$key = ShoppeHelper::getCategoryKey($categoryList, '娛樂、收藏');
-
-$categoryId = $categoryList[$key]['catid'];
+$categoryId = ShoppeHelper::getCategoryCatId($categoryList, '娛樂、收藏');
 
 $items = $shopeeWebCrawler->getSearchItems($categoryId, 0, 0)->toArray();
 
@@ -37,5 +35,6 @@ for ($i = 0; $i < $totalCount; $i++)
 }
 
 $excelGenerator = new ExcelGenerator();
+$excelGenerator->setTitle('zero');
 $excelGenerator->fromArray($database, 'A1');
-$excelGenerator->save('prodcut');
+$excelGenerator->save('product');

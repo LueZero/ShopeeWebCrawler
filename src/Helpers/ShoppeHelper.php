@@ -4,7 +4,7 @@ namespace BigGo\InterviewQuestion\Helpers;
 
 class ShoppeHelper
 {
-    public static function getCategoryKey($categoryList, $value)
+    public static function getCategoryCatId($categoryList, $value)
     {
         if (is_array($categoryList)) 
         {
@@ -14,12 +14,12 @@ class ShoppeHelper
                 if (isset($category['display_name']) && trim($category['display_name']) == trim($value))
                     return isset($category['catid']) ? $category['catid'] : 0;
                 else if (isset($category['children'])) {
-                    foreach ($category['children'] as $childr)
-                    array_push($children, $childr);
+                    foreach ($category['children'] as $child)
+                        array_push($children, $child);
                 }
             }
 
-            return self::getCategoryKey($children, $value);
+            return self::getCategoryCatId($children, $value);
         }
     }
 }

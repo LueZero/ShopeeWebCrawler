@@ -101,18 +101,18 @@ class ShopeeWebCrawler
 
         $array = (array) json_decode($this->body, true);
 
-        $produtcItems = empty($array['items']) == true ? [] : $array['items'];
+        $productItems = empty($array['items']) == true ? [] : $array['items'];
 
-        if (!empty($produtcItems)) 
+        if (!empty($productItems)) 
         {
-            foreach ($produtcItems as $produtcItem) 
+            foreach ($productItems as $productItem) 
             {
                 $item = new Item();
-                $item->itemId = $produtcItem['item_basic']['itemid'];
-                $item->name = $this->convertZh2Hans($produtcItem['item_basic']['name']);
-                $item->price = intval($produtcItem['item_basic']['price']) / 100000;
-                $item->priceMin = intval($produtcItem['item_basic']['price_min']) / 100000;
-                $item->priceMax = intval($produtcItem['item_basic']['price_max']) / 100000;
+                $item->itemId = $productItem['item_basic']['itemid'];
+                $item->name = $this->convertZh2Hans($productItem['item_basic']['name']);
+                $item->price = intval($productItem['item_basic']['price']) / 100000;
+                $item->priceMin = intval($productItem['item_basic']['price_min']) / 100000;
+                $item->priceMax = intval($productItem['item_basic']['price_max']) / 100000;
                 array_push($items, $item);
             }
         }

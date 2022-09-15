@@ -17,9 +17,14 @@ class ExcelGenerator
         $this->spreadsheet = new Spreadsheet();
     }
 
+    public function setTitle($title)
+    {
+        $this->spreadsheet->getActiveSheet()->setTitle($title);
+    }
+
     public function setCellValue($column, $name)
     {
-        $this->spreadsheet->setCellValue($column, $name);
+        $this->spreadsheet->getActiveSheet()->setCellValue($column, $name);
     }
 
     public function fromArray($database, $column)
