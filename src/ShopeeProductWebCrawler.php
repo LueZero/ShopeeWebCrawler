@@ -24,8 +24,8 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     private $body;
 
     /**
-     * @var \BigGo\InterviewQuestion\ExcelGenerator excelGenerator
-     * @var \GuzzleHttp\Client; client
+     * @param \BigGo\InterviewQuestion\ExcelGenerator excelGenerator
+     * @param \GuzzleHttp\Client; client
      */
     public function __construct($excelGenerator, $client)
     {
@@ -34,11 +34,19 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @var string keyword
-     * @var int limit
-     * @var int newest
-     * @var string by
-     * @var string order
+     * @return string boyd 
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param string keyword
+     * @param int limit
+     * @param int newest
+     * @param string by
+     * @param string order
      * @return this
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -63,7 +71,7 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @return this 
+     * @param this 
      */
     public function getCategory()
     {
@@ -86,11 +94,11 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @var int categoryId
-     * @var int limit
-     * @var int newest
-     * @var string by
-     * @var string order
+     * @param int categoryId
+     * @param int limit
+     * @param int newest
+     * @param string by
+     * @param string order
      * @return this
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -115,7 +123,7 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @return array
+     * @param array
      */
     public function toArray()
     {
@@ -123,7 +131,7 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @return Item[]
+     * @param Item[]
      */
     public function toItems()
     {
@@ -150,8 +158,8 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @var array categoryList
-     * @var string displayName
+     * @param array categoryList
+     * @param string displayName
      */
     public function findCategoryCatId($categoryList, $displayName)
     {
@@ -177,9 +185,9 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
     
     /**
-     * @var array source
-     * @var string sheetTitle
-     * @var string fileName
+     * @param array source
+     * @param string sheetTitle
+     * @param string fileName
      */
     public function exportExcel($source, $sheetTitle, $fileName)
     {
