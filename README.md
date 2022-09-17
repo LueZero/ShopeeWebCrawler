@@ -8,7 +8,7 @@
 
 ## 執行方式
 
-```php=
+```php
 require './vendor/autoload.php';
 
 use GuzzleHttp\Client;
