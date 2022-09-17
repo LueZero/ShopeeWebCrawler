@@ -34,7 +34,7 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @return string boyd 
+     * @return string 
      */
     public function getBody()
     {
@@ -42,11 +42,11 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @param string keyword
-     * @param int limit
-     * @param int newest
-     * @param string by
-     * @param string order
+     * @param string $keyword
+     * @param int $limit
+     * @param int $newest
+     * @param string $by
+     * @param string $order
      * @return this
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -94,11 +94,11 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @param int categoryId
-     * @param int limit
-     * @param int newest
-     * @param string by
-     * @param string order
+     * @param int $categoryId
+     * @param int $limit
+     * @param int $newest
+     * @param string $by
+     * @param string $order
      * @return this
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -158,8 +158,8 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @param array categoryList
-     * @param string displayName
+     * @param array $categoryList
+     * @param string $displayName
      */
     public function findCategoryCatId($categoryList, $displayName)
     {
@@ -185,9 +185,9 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     }
     
     /**
-     * @param array source
-     * @param string sheetTitle
-     * @param string fileName
+     * @param array $source
+     * @param string $sheetTitle
+     * @param string $fileName
      */
     public function exportExcel($source, $sheetTitle, $fileName)
     {

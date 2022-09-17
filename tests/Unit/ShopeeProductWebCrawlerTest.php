@@ -29,7 +29,7 @@ final class ShopeeProductWebCrawlerTest extends TestCase
         // Arrange
         $excelGenerator = new ExcelGenerator();
         $mockHttpClient = $this->createMock(Client::class);
-        $stub = new ShopeeProductWebCrawler($excelGenerator,  $mockHttpClient);
+        $sut = new ShopeeProductWebCrawler($excelGenerator,  $mockHttpClient);
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
@@ -41,7 +41,7 @@ final class ShopeeProductWebCrawlerTest extends TestCase
         $mockHttpClient->expects($this->once())->method('request')->with('GET', $uri, ['headers' => ['x-api-source' => 'pc']]);
 
         // Act
-        $stub->getProduct($keyword, $limit, $newest);
+        $sut->getProduct($keyword, $limit, $newest);
     }
 
     /**
@@ -51,9 +51,9 @@ final class ShopeeProductWebCrawlerTest extends TestCase
     {
         // Arrange
         $excelGenerator = new ExcelGenerator();
-        $mockHttpClient = $this->createMock(Client::class);
+        $stubHttpClient = $this->createMock(Client::class);
         $mockResponse = $this->createMock(ResponseInterface::class);
-        $stub = new ShopeeProductWebCrawler($excelGenerator,  $mockHttpClient);
+        $sut = new ShopeeProductWebCrawler($excelGenerator,  $stubHttpClient);
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
@@ -61,12 +61,12 @@ final class ShopeeProductWebCrawlerTest extends TestCase
         $order = 'desc';
         $uri = '/api/v4/search/search_items?by=' . $by . '&keyword=' . $keyword . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2';
 
-        $mockHttpClient->method('request')->with('GET', $uri, ['headers' => ['x-api-source' => 'pc']])->willReturn($mockResponse);
+        $stubHttpClient->method('request')->with('GET', $uri, ['headers' => ['x-api-source' => 'pc']])->willReturn($mockResponse);
         $mockResponse->method('getBody')->willReturn('json string');
 
         // Act 
-        $stub->getProduct($keyword, $limit, $newest);
-        $actual = $stub->getBody();
+        $sut->getProduct($keyword, $limit, $newest);
+        $actual = $sut->getBody();
 
         // Assert
         $expected = 'json string';
