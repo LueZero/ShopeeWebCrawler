@@ -5,14 +5,14 @@ error_reporting(E_ALL);
 
 require './vendor/autoload.php';
 
+use GuzzleHttp\Client;
 use BigGo\InterviewQuestion\ShopeeProductWebCrawler;
 use BigGo\InterviewQuestion\ExcelGenerator;
 use BigGo\InterviewQuestion\StringConverter;
 
 $excelGenerator = new ExcelGenerator();
-$shopeeProductWebCrawler = new ShopeeProductWebCrawler();
-
-$database = [['名稱', '金額']];
+$client = new Client(['base_uri' => 'https://shopee.tw']);
+$shopeeProductWebCrawler = new ShopeeProductWebCrawler($excelGenerator, $client);
 
 $categories = $shopeeProductWebCrawler->getCategory()->toArray();
 $categoryList = empty($categories['data']['category_list']) == true ? [] : $categories['data']['category_list'];
@@ -33,10 +33,9 @@ for ($i = 0; $i < $page; $i++) {
         if ($item->priceMin != $item->priceMax)
             $price = '$'.$item->priceMin . ' - ' . '$'.$item->priceMax;
 
-        array_push($database, [StringConverter::convertZh2Hans($item->name), $price]);
+        array_push($source, [StringConverter::convertZh2Hans($item->name), $price]);
     }
 }
 
-$excelGenerator->setTitle('zero');
-$excelGenerator->fromArray($database, 'A1');
-$excelGenerator->save('product');
+$source = [['名稱', '金額']];
+$shopeeProductWebCrawler->exportExcel($source, 'zero', 'product');
