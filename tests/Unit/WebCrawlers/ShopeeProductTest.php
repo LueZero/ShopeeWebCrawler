@@ -75,30 +75,47 @@ final class ShopeeProductTest extends TestCase
     /**
      * @test
      */
-    // public function testGiveCallArray_WhenGettingProduct_ThenReturnArray()
-    // {
-    //     // Arrange
-    //     $expected = 'json string';
-    //     $stubHttpClient = $this->getMockBuilder(Client::class)->getMock();
-    //     $mockResponse = $this->createMock(ResponseInterface::class);
-    //     $sut = new ShopeeProductWebCrawler(ExcelGenerator::class,  $stubHttpClient);
-    //     $keyword = 'test';
-    //     $limit = 60;
-    //     $newest = 0;
-    //     $by = 'relevancy';
-    //     $order = 'desc';
-    //     $uri = '/api/v4/search/search_items?by=' . $by . '&keyword=' . $keyword . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2';
+    public function testGiveCallToArrayMethod_WhenGettingProduct_ThenReturnArray()
+    {
+        // Arrange
+        $expected = [
+            'items'=> [
+                'item_basic' => [
+                    [
+                        "itemid" => 6840261731,
+                        "name" => "PTCG 中文版 寶可夢卡牌【普卡一張一元】 100張以內無重複出貨~",
+                    ]
+                ]
+            ]
+        ];
+        $stubHttpClient = $this->getMockBuilder(Client::class)->getMock();
+        $mockResponse = $this->createMock(ResponseInterface::class);
+        $sut = new ShopeeProductWebCrawler(ExcelGenerator::class,  $stubHttpClient);
+        $keyword = 'test';
+        $limit = 60;
+        $newest = 0;
+        $by = 'relevancy';
+        $order = 'desc';
+        $uri = '/api/v4/search/search_items?by=' . $by . '&keyword=' . $keyword . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2';
 
-    //     $stubHttpClient->method('request')->with('GET', $uri, ['headers' => ['x-api-source' => 'pc']])->willReturn($mockResponse);
-    //     $mockResponse->method('getBody')->willReturn('json string');
+        $stubHttpClient->method('request')->with('GET', $uri, ['headers' => ['x-api-source' => 'pc']])->willReturn($mockResponse);
+        $mockResponse->method('getBody')->willReturn(json_encode([
+            'items'=> [
+                'item_basic' => [
+                    [
+                        "itemid" => 6840261731,
+                        "name" => "PTCG 中文版 寶可夢卡牌【普卡一張一元】 100張以內無重複出貨~",
+                    ]
+                ]
+            ]
+        ]));
 
-    //     // Act 
-    //     $actual = $sut->getProduct($keyword, $limit, $newest);
+        // Act 
+        $actual = $sut->getProduct($keyword, $limit, $newest)->toArray();
 
-    //     // Assert
-    //     $this->assertEquals($expected, $actual);
-    // }
-
+        // Assert
+        $this->assertEquals($expected, $actual);
+    }
 
     /**
      * @test
