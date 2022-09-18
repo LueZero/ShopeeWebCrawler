@@ -1,15 +1,15 @@
 <?php
 
-namespace BigGo\InterviewQuestion;
+namespace Zero;
 
-use BigGo\InterviewQuestion\Models\Shoppe\Item;
-use BigGo\InterviewQuestion\ExcelGenerator;
+use Zero\Models\Shoppe\Item;
+use Zero\ExcelGenerator;
 use GuzzleHttp\Client;
 
-class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
+class ShopeeWebCrawler implements ProductWebCrawlerInterface
 {
     /**
-     * @var \BigGo\InterviewQuestion\ExcelGenerator
+     * @var \Zero\ExcelGenerator
      */
     private $excelGenerator;
 
@@ -24,7 +24,7 @@ class ShopeeProductWebCrawler implements ProductWebCrawlerInterface
     private $body;
 
     /**
-     * @param \BigGo\InterviewQuestion\ExcelGenerator excelGenerator
+     * @param \Zero\ExcelGenerator excelGenerator
      * @param \GuzzleHttp\Client; client
      */
     public function __construct($excelGenerator, $client)

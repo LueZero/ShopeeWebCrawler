@@ -1,6 +1,6 @@
 <?php
 
-namespace BigGo\InterviewQuestion;
+namespace Zero;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

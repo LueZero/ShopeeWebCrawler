@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "BigGo\\InterviewQuestion\\": "src"          
+            "Zero\\": "src"          
         },
         "classmap": [
             "src/Models/Languages"

@@ -1,6 +1,6 @@
 <?php
 
-namespace BigGo\InterviewQuestion;
+namespace Zero;
 
 use MediaWiki\Languages\Data\ZhConversion;
 

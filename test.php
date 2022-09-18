@@ -6,25 +6,27 @@ error_reporting(E_ALL);
 require './vendor/autoload.php';
 
 use GuzzleHttp\Client;
-use BigGo\InterviewQuestion\ShopeeProductWebCrawler;
-use BigGo\InterviewQuestion\ExcelGenerator;
-use BigGo\InterviewQuestion\StringConverter;
+use Zero\ShopeeWebCrawler;
+use Zero\ExcelGenerator;
+use Zero\StringConverter;
 
 $excelGenerator = new ExcelGenerator();
 $client = new Client(['base_uri' => 'https://shopee.tw']);
-$shopeeProductWebCrawler = new ShopeeProductWebCrawler($excelGenerator, $client);
+$shopeeWebCrawler = new ShopeeWebCrawler($excelGenerator, $client);
 
-$categories = $shopeeProductWebCrawler->getCategory()->toArray();
+$categories = $shopeeWebCrawler->getCategory()->toArray();
 $categoryList = empty($categories['data']['category_list']) == true ? [] : $categories['data']['category_list'];
-$categoryId = $shopeeProductWebCrawler->findCategoryCatId($categoryList, '娛樂、收藏');
+$categoryId = $shopeeWebCrawler->findCategoryCatId($categoryList, '娛樂、收藏');
 
-$items = $shopeeProductWebCrawler->getCategoryProduct($categoryId, 0, 0)->toArray();
+$items = $shopeeWebCrawler->getCategoryProduct($categoryId, 0, 0)->toArray();
 $page = empty($items['total_count']) == true ? 0 : ($items['total_count'] / 60);
 $newest = 0;
 
+$source = [['名稱', '金額']];
+
 for ($i = 0; $i < $page; $i++) {
 
-    $items = $shopeeProductWebCrawler->getCategoryProduct($categoryId, 60, $newest)->toItems();
+    $items = $shopeeWebCrawler->getCategoryProduct($categoryId, 60, $newest)->toItems();
     $newest += 60;
 
     foreach($items as $item) {
@@ -37,5 +39,5 @@ for ($i = 0; $i < $page; $i++) {
     }
 }
 
-$source = [['名稱', '金額']];
-$shopeeProductWebCrawler->exportExcel($source, 'zero', 'product');
+
+$shopeeWebCrawler->exportExcel($source, 'zero', 'product');

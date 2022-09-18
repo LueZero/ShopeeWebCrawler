@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use BigGo\InterviewQuestion\StringConverter;
+use Zero\StringConverter;
 
 final class StringConverterTest extends TestCase
 {

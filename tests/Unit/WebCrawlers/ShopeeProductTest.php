@@ -7,8 +7,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use BigGo\InterviewQuestion\ShopeeProductWebCrawler;
-use BigGo\InterviewQuestion\ExcelGenerator;
+use Zero\ShopeeWebCrawler;
+use Zero\ExcelGenerator;
 
 final class ShopeeProductTest extends TestCase
 {
@@ -29,7 +29,7 @@ final class ShopeeProductTest extends TestCase
     {
         // Arrange
         $mockHttpClient = $this->createMock(Client::class);
-        $sut = new ShopeeProductWebCrawler(ExcelGenerator::class,  $mockHttpClient);
+        $sut = new ShopeeWebCrawler(ExcelGenerator::class,  $mockHttpClient);
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
@@ -53,7 +53,7 @@ final class ShopeeProductTest extends TestCase
         $expected = 'json string';
         $stubHttpClient = $this->getMockBuilder(Client::class)->getMock();
         $mockResponse = $this->createMock(ResponseInterface::class);
-        $sut = new ShopeeProductWebCrawler(ExcelGenerator::class,  $stubHttpClient);
+        $sut = new ShopeeWebCrawler(ExcelGenerator::class,  $stubHttpClient);
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
@@ -90,7 +90,7 @@ final class ShopeeProductTest extends TestCase
         ];
         $stubHttpClient = $this->getMockBuilder(Client::class)->getMock();
         $mockResponse = $this->createMock(ResponseInterface::class);
-        $sut = new ShopeeProductWebCrawler(ExcelGenerator::class,  $stubHttpClient);
+        $sut = new ShopeeWebCrawler(ExcelGenerator::class,  $stubHttpClient);
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
@@ -124,7 +124,7 @@ final class ShopeeProductTest extends TestCase
     {
         // Arrange
         $mockHttpClient = $this->createMock(Client::class);
-        $sut = new ShopeeProductWebCrawler(ExcelGenerator::class,  $mockHttpClient);
+        $sut = new ShopeeWebCrawler(ExcelGenerator::class,  $mockHttpClient);
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
@@ -150,7 +150,7 @@ final class ShopeeProductTest extends TestCase
         $keyword = 'test';
         $limit = 60;
         $newest = 0;
-        $sut = $this->createMock(ShopeeProductWebCrawler::class);
+        $sut = $this->createMock(ShopeeWebCrawler::class);
         $sut->expects($this->any())->method('getProduct')->with($keyword, $limit, $newest)->will($this->throwException(new ErrorException('Request error.')));
 
         // Assert

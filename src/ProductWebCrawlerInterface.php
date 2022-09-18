@@ -1,6 +1,6 @@
 <?php
 
-namespace BigGo\InterviewQuestion;
+namespace Zero;
 
 interface ProductWebCrawlerInterface
 {

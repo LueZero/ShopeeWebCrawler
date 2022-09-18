@@ -7,8 +7,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use BigGo\InterviewQuestion\ShopeeProductWebCrawler;
-use BigGo\InterviewQuestion\ExcelGenerator;
+use Zero\ShopeeWebCrawler;
+use Zero\ExcelGenerator;
 
 final class ShopeeCategoryTest extends TestCase
 {
