@@ -160,7 +160,7 @@ class ShopeeWebCrawler implements ProductWebCrawlerInterface
     /**
      * @param array $categoryList
      * @param string $displayName
-     * @return string $catId
+     * @return string
      */
     public function findCategoryCatId($categoryList, $displayName)
     {
