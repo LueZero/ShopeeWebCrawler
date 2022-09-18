@@ -47,7 +47,7 @@ final class ShopeeProductTest extends TestCase
     /**
      * @test
      */
-    public function testGiveCallGettingBody_WhenGettingProduct_ThenReturnJson()
+    public function testGiveCallGettingBody_WhenGettingProduct_ThenReturnJsonString()
     {
         // Arrange
         $expected = 'json string';
@@ -61,7 +61,7 @@ final class ShopeeProductTest extends TestCase
         $order = 'desc';
         $uri = '/api/v4/search/search_items?by=' . $by . '&keyword=' . $keyword . '&limit=' . $limit . '&newest=' . $newest . '&order=' . $order . '&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2';
 
-        $stubHttpClient->method('request')->with('GET', $uri, ['headers' => ['x-api-source' => 'pc']])->willReturn($mockResponse);
+        $stubHttpClient->method('request')->willReturn($mockResponse);
         $mockResponse->method('getBody')->willReturn('json string');
 
         // Act 

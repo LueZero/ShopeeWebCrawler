@@ -24,8 +24,8 @@ class ShopeeWebCrawler implements ProductWebCrawlerInterface
     private $body;
 
     /**
-     * @param \Zero\ExcelGenerator excelGenerator
-     * @param \GuzzleHttp\Client; client
+     * @param \Zero\ExcelGenerator $excelGenerator
+     * @param \GuzzleHttp\Client $client
      */
     public function __construct($excelGenerator, $client)
     {
@@ -71,7 +71,7 @@ class ShopeeWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @param this 
+     * @return this 
      */
     public function getCategory()
     {
@@ -123,7 +123,7 @@ class ShopeeWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @param array
+     * @return array
      */
     public function toArray()
     {
@@ -131,7 +131,7 @@ class ShopeeWebCrawler implements ProductWebCrawlerInterface
     }
 
     /**
-     * @param Item[]
+     * @return Item[]
      */
     public function toItems()
     {
@@ -160,6 +160,7 @@ class ShopeeWebCrawler implements ProductWebCrawlerInterface
     /**
      * @param array $categoryList
      * @param string $displayName
+     * @return string $catId
      */
     public function findCategoryCatId($categoryList, $displayName)
     {

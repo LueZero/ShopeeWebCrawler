@@ -20,32 +20,49 @@ final class StringConverterTest extends TestCase
     /**
      * @test
      */
-    public function testGivenInputText_WhenConvertZh2Hans_ThenShowSimplifiedChinese()
+    public function testGivenTraditionalChineseText_WhenConvertZh2Hans_ThenReturnSimplifiedChinese()
     {
         // Arrange
-        $inputText =  '我是誰';
+        $text =  '我是誰';
         $expected = '我是谁';
 
         // Act
-        $outputText = StringConverter::convertZh2Hans($inputText);
+        $actual = StringConverter::convertZh2Hans($text);
 
         // Assert
-        $this->assertEquals($expected, $outputText);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
      * @test
      */
-    public function testGivenInputText_WhenConvertZh2Hant_ThenTraditionalChinese()
+    public function testGivenSimplifiedChineseText_WhenConvertZh2Hant_ThenReturnTraditionalChinese()
     {
         // Arrange
-        $inputText =  '我是谁';
+        $text =  '我是谁';
         $expected = '我是誰';
 
         // Act
-        $outputText = StringConverter::convertZh2Hant($inputText);
+        $actual = StringConverter::convertZh2Hant($text);
 
         // Assert
-        $this->assertEquals($expected, $outputText);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function testGivenTraditionalChineseText_WhenConvertZh2Hans_ThenReturnTraditionalChineseText()
+    {
+        // Arrange
+        $text =  '我是誰';
+        $expected = '我是誰';
+        $mock = $this->getMockForTrait(StringConverter::class);
+
+        // Act
+        $actual = StringConverter::convertZh2Hant($text);
+
+        // Assert
+        $this->assertEquals($expected, $actual);
     }
 }
