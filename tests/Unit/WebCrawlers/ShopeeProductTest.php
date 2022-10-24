@@ -75,7 +75,7 @@ final class ShopeeProductTest extends TestCase
     /**
      * @test
      */
-    public function testGiveCallToArrayMethod_WhenGettingProduct_ThenReturnArray()
+    public function testGiveCallToArrayMethod_WhenGettingProductJsonString_ThenReturnArray()
     {
         // Arrange
         $expected = [

@@ -25,13 +25,40 @@ final class ShopeeCategoryTest extends TestCase
     /**
      * @test
      */
-    public function test()
+    public function testGiveCallToArrayMethod_WhenGettingCategoryJsonString_ThenReturnArray()
     {
         // Arrange
-        
-        // Act
-        
+        $expected = [
+            'data'=> [
+                'category_list' => [
+                    [
+                        "catid" => 11040766,
+                        "display_name" => "女生衣著",
+                    ]
+                ]
+            ]
+        ];
+        $mockHttpClient = $this->createMock(Client::class);
+        $mockResponse = $this->createMock(ResponseInterface::class);
+        $sut = new ShopeeWebCrawler(ExcelGenerator::class,  $mockHttpClient);
+        $uri = '/api/v4/pages/get_category_tree';
+
+        $mockHttpClient->method('request')->willReturn($mockResponse);
+        $mockResponse->method('getBody')->willReturn(json_encode([
+            'data'=> [
+                'category_list' => [
+                    [
+                        "catid" => 11040766,
+                        "display_name" => "女生衣著",
+                    ]
+                ]
+            ]
+        ]));
+
         // Assert
-        $this->assertTrue(true);
+        $actual = $sut->getCategory()->toArray();
+
+        // Act
+        $this->assertEquals($expected, $actual);
     }
 }
