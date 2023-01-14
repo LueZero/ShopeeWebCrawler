@@ -1,6 +1,6 @@
 <?php 
 
-namespace Zero\Models\Shoppe;
+namespace Zero\Models;
 
 class Item {
 

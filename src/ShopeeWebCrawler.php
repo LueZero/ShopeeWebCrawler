@@ -2,7 +2,7 @@
 
 namespace Zero;
 
-use Zero\Models\Shoppe\Item;
+use Zero\Models\Item;
 use Zero\ExcelGenerator;
 use GuzzleHttp\Client;
 
