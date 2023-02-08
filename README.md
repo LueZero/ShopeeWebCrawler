@@ -26,7 +26,7 @@ $categories = $shopeeWebCrawler->getCategory()->toArray();
 // 取得類別內容
 $categoryList = empty($categories['data']['category_list']) == true ? [] : $categories['data']['category_list'];
 
-// 找尋想要的類別名稱並回傳該類別ID
+// 找尋想要的類別名稱並回傳該類別 ID
 $categoryId = $shopeeWebCrawler->findCategoryCatId($categoryList, '娛樂、收藏');
 
 // 執行一次類別
@@ -35,7 +35,7 @@ $items = $shopeeWebCrawler->getCategoryProduct($categoryId, 0, 0)->toArray();
 // 獲取該類別產品總數量
 $page = empty($items['total_count']) == true ? 0 : ($items['total_count'] / 60);
 
-// 抓取所有類別下的產品，newest為每一頁數量(第一頁預設=0)，下一頁都是+60
+// 抓取所有類別下的產品，newest 為每一頁數量 (第一頁預設=0)，下一頁都是+60
 $newest = 0;
 $items = $shopeeWebCrawler->getCategoryProduct($categoryId, 60, $newest)->toItems();
 ```
