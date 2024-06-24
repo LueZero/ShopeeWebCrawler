@@ -35,7 +35,7 @@ $items = $shopeeWebCrawler->getCategoryProduct($categoryId, 0, 0)->toArray();
 // 獲取該類別產品總數量
 $page = empty($items['total_count']) == true ? 0 : ($items['total_count'] / 60);
 
-// 抓取所有類別下的產品，newest 為每一頁數量 (第一頁預設=0)，下一頁都是+60
+// 抓取所有類別下的產品，newest 為每一頁數量 (第一頁預設=0)，下一頁都是 +60
 $newest = 0;
 $items = $shopeeWebCrawler->getCategoryProduct($categoryId, 60, $newest)->toItems();
 ```
